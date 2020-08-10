@@ -4,6 +4,9 @@ django-heroku
 APScheduler==3.0.0
 rq==1.5.0
 facebook-sdk==3.1.0
-opencv-contrib-python==3.3.0.9
+opencv-python==4.2.0.34
+libsm6 
+libxrender1 
+libfontconfig1
 
 
