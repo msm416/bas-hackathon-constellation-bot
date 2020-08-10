@@ -7,12 +7,12 @@ from collections import deque
 import math
 
 
-def upload_photo(photoName):
+def upload_photo(photoName, constlName):
     access_token = os.environ['FB_TOKEN_BAS']
 
     #here goes your access token from http://maxbots.ddns.net/token
     graph = facebook.GraphAPI(access_token)
-    msg = 'Le constellation has arrived!' #message for the post
+    msg = 'Le constellation has arrived! Source pic: '+ constlName #message for the post
     comment_msg = 'uWu' #message for the comment
     post_id = graph.put_photo(image = open(photoName, 'rb'), message= msg)["post_id"] #photo got posted!
     print('Photo has been uploaded to facebook!')
@@ -54,7 +54,9 @@ def generateAndPost():
     constPath = "images/toBeConstellation/"
     bckgrPath = "images/backgroundSky/"
 
-    constl = cv2.imread(constPath + random.choice(os.listdir(constPath)), 0)
+
+    constlName = random.choice(os.listdir(constPath))
+    constl = cv2.imread(constPath + constlName, 0)
     bckgr = cv2.imread(bckgrPath + random.choice(os.listdir(bckgrPath)))
 
     # constl = cv2.imread(constPath + 'monkey.jpg', 0)
@@ -63,7 +65,7 @@ def generateAndPost():
     rowsConst, colsConst = constl.shape
     rowsBckgr, colsBckgr = bckgr.shape[:2]
 
-    edges = getClusters(cv2.Canny(constl,150,150))
+    edges = getClusters(cv2.Canny(constl,100,100))
 
     edges = cv2.resize(edges, dsize=(min(colsBckgr, colsConst * rowsBckgr // 3 // rowsConst), rowsBckgr//3), interpolation=cv2.INTER_CUBIC)
 
@@ -77,7 +79,8 @@ def generateAndPost():
                 bckgr[i][j + offsetCol] = 255
 
     cv2.imwrite("output.jpg", bckgr)
-    upload_photo("output.jpg")
+    upload_photo("output.jpg", constlName)
+
 
 
 if __name__ == '__main__':
