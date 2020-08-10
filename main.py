@@ -63,13 +63,13 @@ def generateAndPost():
     rowsConst, colsConst = constl.shape
     rowsBckgr, colsBckgr = bckgr.shape[:2]
 
-    resConst = cv2.resize(constl, dsize=(min(colsBckgr, colsConst * rowsBckgr // 3 // rowsConst), rowsBckgr//3), interpolation=cv2.INTER_CUBIC)
+    edges = getClusters(cv2.Canny(constl,150,150))
 
-    edges = getClusters(cv2.Canny(resConst,150,150))
+    edges = cv2.resize(edges, dsize=(min(colsBckgr, colsConst * rowsBckgr // 3 // rowsConst), rowsBckgr//3), interpolation=cv2.INTER_CUBIC)
 
     # rows are fixed for resized Constellation; now we choose where to put the Constellation
 
-    offsetCol = int(random.random() * (colsBckgr - resConst.shape[1]))
+    offsetCol = int(random.random() * (colsBckgr - edges.shape[1]))
 
     for i in range(edges.shape[0]):
         for j in range(edges.shape[1]):
