@@ -1,10 +1,12 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
+from main import generateAndPost
 
 sched = BlockingScheduler()
 
-@sched.scheduled_job('interval', minutes=3)
+@sched.scheduled_job('interval', minutes=5)
 def timed_job():
-    print('This job is run every three minutes.')
+    generateAndPost()
+    print('This job is run every 5 minutes.')
 
 @sched.scheduled_job('cron', day_of_week='mon-fri', hour=17)
 def scheduled_job():
