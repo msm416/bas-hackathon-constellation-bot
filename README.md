@@ -1,1 +1,1 @@
-# Bot
+### Bot created during the FB BAS hackathon. Using Canny Edge detection algorithm and a heuristic for clustering pixels, it creates a constellation out of an image, which is placed over some sky background.
